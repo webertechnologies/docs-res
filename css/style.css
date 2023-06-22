@@ -1,0 +1,16 @@
+.nav-logo img {
+  width: 100px;
+  padding: 0.5em;
+  width: 4em;
+  height: 4em;
+}
+header {
+  background: rgb(250, 250, 250);
+}
+.nav-logo {
+  display: flex;
+}
+.nav-logo h1 {
+  font-size: 1.8em;
+  font-family: Montserrat;
+}

@@ -1,0 +1,206 @@
+openapi: 3.0.0
+info:
+  title: STM API Documentation
+  description: |
+    <div style="background-color: #f1f1f1; padding: 20px; border-radius: 5px;">
+      <h1 style="color: #333;">Welcome to the STM API Documentation!</h1>
+      <p style="font-size: 16px;">Explore the power of our API to make a difference.</p>
+      <p style="font-weight: bold;">Organization: Service To Mankind</p>
+      <hr style="border: none; border-top: 1px solid #ccc; margin: 20px 0;">
+      <p style="font-size: 14px;">
+        This documentation provides detailed information about the API endpoints and functionality offered by the STM organization.
+      </p>
+      <p style="font-size: 14px;">
+        We aim to empower developers and partners to leverage our services for the betterment of society.
+      </p>
+    </div>
+
+    <h2 style="color: #333;">Getting Started</h2>
+    <p style="font-size: 16px;">To get started, please refer to the sidebar navigation to explore the available endpoints and their respective request and response structures.</p>
+
+    <h2 style="color: #333;">Authentication</h2>
+    <p style="font-size: 16px;">Some API endpoints require authentication. Please refer to the authentication section in the sidebar for more information on how to authenticate your requests.</p>
+
+    <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
+      <p style="font-size: 14px; font-weight: bold;">Note:</p>
+      <p style="font-size: 14px;">This API is intended for authorized use only. Make sure to obtain the necessary access credentials and follow the guidelines provided.</p>
+    </div>
+  version: 1.0.0
+servers:
+  - url: https://apis.stmorg.in
+paths:
+  /logs/donations:
+    get:
+      tags:
+        - Logs
+      summary: Retrieve donation logs
+      description: |
+        This endpoint allows you to retrieve donation logs for a specific month and year.
+      parameters:
+        - name: month
+          in: query
+          description: The month for which donation logs should be retrieved (1-12)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+        - name: year
+          in: query
+          description: The year for which donation logs should be retrieved
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DonationLog"
+        "400":
+          description: Invalid request
+
+  /activities/activities:
+    get:
+      tags:
+        - Activities
+      summary: Retrieve activities
+      description: |
+        This endpoint allows you to retrieve activities for a specific month and year.
+      parameters:
+        - name: month
+          in: query
+          description: The month for which activities should be retrieved (1-12)
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+        - name: year
+          in: query
+          description: The year for which activities should be retrieved
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Activity"
+        "400":
+          description: Invalid request
+
+  /activities/activities_vol:
+    get:
+      tags:
+        - Activities
+      summary: Retrieve activities for a volunteer
+      description: |
+        This endpoint allows you to retrieve activities for a specific volunteer.
+      parameters:
+        - name: uid
+          in: query
+          description: The ID of the volunteer
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Activity"
+        "400":
+          description: Invalid request
+
+components:
+  schemas:
+    DonationLog:
+      type: object
+      properties:
+        id:
+          type: integer
+        amount:
+          type: number
+        date:
+          type: string
+          format: date
+        donor:
+          type: string
+
+    Activity:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        start_date:
+          type: string
+          format: date
+        start_time:
+          type: string
+          format: time
+        description:
+          type: string
+        status:
+          type: string
+        sponsored_by:
+          type: string
+
+tags:
+  - name: Logs
+    description: |
+      The Logs API allows you to retrieve donation logs for a specific month and year.
+  - name: Activities
+    description: |
+      ![Activities](https://example.com/images/activities.png)
+
+      **<h1>Activities API</h1>**
+
+      <p>The Activities API allows you to manage and retrieve information about the activities organized by STM (Service To Mankind) NGO. You can perform various operations such as retrieving all activities, getting details of a specific activity, adding volunteers to activities, and removing volunteers from activities.</p>
+
+      ## Endpoints
+
+      - `GET /activities`: Retrieve a list of all activities.
+      - `GET /activities/{id}`: Get details of a specific activity.
+      - `POST /activities/{id}`: Add a volunteer to an activity.
+      - `DELETE /activities/{id}/volunteers/{volunteerId}`: Remove a volunteer from an activity.
+
+      ## Authentication
+
+      The Activities API requires authentication. To access the API endpoints, you need to include an API key in the `Authorization` header of your requests.
+
+      ## Pagination
+
+      The API endpoints that return multiple activities support pagination. You can specify the `page` parameter to retrieve a specific page of activities, and the `limit` parameter to control the number of activities per page.
+
+      ## Error Handling
+
+      If any errors occur during the API operations, appropriate HTTP status codes and error messages will be returned. Make sure to handle and interpret these error responses properly in your application.
+
+      For more details about the API endpoints and request/response examples, refer to the API documentation below.
+
+      [API Documentation](https://example.com/documentation)
+  - name: common
+    description: |
+      Common API endpoints.
+  - name: Documents
+    description: |
+      The Documents API allows you to retrieve documents for a specific month and year.
+  - name: Medical
+    description: |
+      The Medical API allows you to retrieve medical records for a specific month and year.
+  - name: Global
+    description: |
+      The Global API allows you to retrieve global data.
