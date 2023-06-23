@@ -39,7 +39,7 @@ paths:
       parameters:
         - name: month
           in: query
-          description: The month for which donation logs should be retrieved (1-12)
+          description: The month for which donation logs should be retrieved (1-12). If not specified, the current month is used.
           required: false
           schema:
             type: integer
@@ -47,7 +47,7 @@ paths:
             maximum: 12
         - name: year
           in: query
-          description: The year for which donation logs should be retrieved
+          description: The year for which donation logs should be retrieved. If not specified, the current year is used.
           required: false
           schema:
             type: integer
@@ -60,6 +60,39 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DonationLog"
+        "400":
+          description: Invalid request
+  /logs/spends:
+    get:
+      tags:
+        - Logs
+      summary: Retrieve spend logs
+      description: |
+        This endpoint allows you to retrieve spend logs for a specific month and year.
+      parameters:
+        - name: month
+          in: query
+          description: The month for which spend logs should be retrieved (1-12). If not specified, the current month is used.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+        - name: year
+          in: query
+          description: The year for which spend logs should be retrieved. If not specified, the current year is used.
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SpendsLog"
         "400":
           description: Invalid request
 
@@ -130,13 +163,58 @@ components:
       properties:
         id:
           type: integer
+        name:
+          type: string
+        mail:
+          type: string
+        mobile:
+          type: integer
         amount:
-          type: number
+          type: integer
+        type:
+          type: integer
+        message:
+          type: string
+        txid:
+          type: string
+        payment_status:
+          type: integer
+        custid:
+          type: string
+        added_on:
+          type: string
+      example:
+        id: 509
+        name: "Pranay Kiran"
+        mail: "pranay********@ybl"
+        mobile: 0
+        amount: 2000
+        type: 0
+        message: "STM DONAR"
+        txid: "352697956568"
+        payment_status: 1
+        custid: "0"
+        added_on: "2023-06-19 06:09:17"
+
+    SpendsLog:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        des:
+          type: string
+        amount:
+          type: integer
         date:
           type: string
-          format: date
-        donor:
-          type: string
+      example:
+        id: 3
+        title: "Animal care"
+        des: "Street Friend Drive In Miyapur"
+        amount: 1600
+        date: "2022-04-24"
 
     Activity:
       type: object
@@ -161,7 +239,16 @@ components:
 tags:
   - name: Logs
     description: |
-      The Logs API allows you to retrieve donation logs for a specific month and year.
+      **Logs API**
+
+      The Logs API allows you to manage and retrieve information about the donations made and spends by the STM (Service To Mankind) NGO. You can perform various operations such as retrieving donation logs for a specific month and year.
+
+      ## Endpoints
+      - `GET /logs/donations`: Retrieve donation logs for a current month and year.
+      - `GET /logs/donations?month={month}&year={year}`: Retrieve donation logs for a specific month and year.
+      - `GET /logs/spends`: Retrieve spend logs for a current month and year.
+      - `GET /logs/spends?month={month}&year={year}`: Retrieve spend logs for a specific month and year.
+
   - name: Activities
     description: |
       ![Activities](https://example.com/images/activities.png)
