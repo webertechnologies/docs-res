@@ -28,6 +28,274 @@ info:
   version: 1.0.0
 servers:
   - url: https://apis.stmorg.in/medical
+paths:
+  /investivations/blood:
+    post:
+      tags:
+        - Investivations
+      summary: Add investigation record
+      description: |
+        This endpoint allows you to add an investigation record to the database.
+      requestBody:
+        description: |
+          The request body should contain a JSON object with the following properties:
+          - `pid` - The ID of the patient
+          - `heamoglobin` - The heamoglobin value
+          - `rbc_count` - The red blood cell count
+          - `wbc_count` - The white blood cell count
+          - `neutrophils` - The neutrophils count
+          - `lymphocytes` - The lymphocytes count
+          - `eosinophils` - The eosinophils count
+          - `monocytes` - The monocytes count
+          - `basophils` - The basophils count
+          - `platelet_count` - The platelet count
+          - `haemotocrit` - The haemotocrit value
+          - `mcv` - The mean corpuscular volume
+          - `mch` - The mean corpuscular hemoglobin
+          - `mchc` - The mean corpuscular hemoglobin concentration
+          - `rdw_cv` - The red cell distribution width coefficient of variation
+          - `band_forms` - The percentage of band forms
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pid:
+                  type: integer
+                heamoglobin:
+                  type: string
+                rbc_count:
+                  type: string
+                wbc_count:
+                  type: string
+                neutrophils:
+                  type: string
+                lymphocytes:
+                  type: string
+                eosinophils:
+                  type: string
+                monocytes:
+                  type: string
+                basophils:
+                  type: string
+                platelet_count:
+                  type: string
+                haemotocrit:
+                  type: string
+                mcv:
+                  type: string
+                mch:
+                  type: string
+                mchc:
+                  type: string
+                rdw_cv:
+                  type: string
+                band_forms:
+                  type: string
+              required:
+                - pid
+                - heamoglobin
+                - rbc_count
+                - wbc_count
+                - neutrophils
+                - lymphocytes
+                - eosinophils
+                - monocytes
+                - basophils
+                - platelet_count
+                - haemotocrit
+                - mcv
+                - mch
+                - mchc
+                - rdw_cv
+                - band_forms
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    const: success
+                    type: string
+                  data:
+                    const: id
+                    type: integer
+        "400":
+          description: Invalid request
+  /patients/add_patient:
+    post:
+      tags:
+        - Patients
+      summary: Add patient
+      description: |
+        This endpoint allows you to add a patient to the database.
+      requestBody:
+        description: |
+          The request body should contain a JSON object with the following properties:
+          - `pid` - The ID of the patient
+          - `name` - The name of the patient
+          - `mobile` - The mobile number of the patient
+          - `email` - The email address of the patient
+          - `age` - The age of the patient
+          - `gender` - The gender of the patient
+          - `blood_group` - The blood group of the patient
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pid:
+                  type: string
+                name:
+                  type: string
+                mobile:
+                  type: string
+                email:
+                  type: string
+                age:
+                  type: string
+                gender:
+                  type: string
+                blood_group:
+                  type: string
+              required:
+                - pid
+                - name
+                - mobile
+                - email
+                - age
+                - gender
+                - blood_group
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    const: success
+                    type: string
+                    description: The status of the response
+                  data:
+                    const: pid
+                    type: integer
+                    description: The ID of the patient
+        "400":
+          description: Invalid request
+  /patients/patients:
+    get:
+      tags:
+        - Patients
+      summary: Search for patients
+      description: |
+        This endpoint allows you to search for patients based on the provided query.
+      parameters:
+        - in: query
+          name: pquery
+          schema:
+            type: string
+          required: false
+          description: The search query
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+        "400":
+          description: Invalid request
+
+  /records/records:
+    get:
+      tags:
+        - Records
+      summary: Get medical records
+      description: |
+        This endpoint allows you to retrieve medical records.
+      parameters:
+        - in: query
+          name: pquery
+          schema:
+            type: string
+          description: Query string to search medical records by patient ID.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MedicalRecord"
+          "400":
+            description: Invalid request
+
+components:
+  schemas:
+    Patient:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        mobile:
+          type: string
+        email:
+          type: string
+        age:
+          type: integer
+        gender:
+          type: string
+        blood_group:
+          type: string
+        added_on:
+          type: string
+      example:
+        id: 1
+        name: "John Doe"
+        mobile: "1234567890"
+        email: "john.doe@example.com"
+        age: 30
+        gender: "Male"
+        blood_group: "A+"
+        added_on: "2023-06-19 06:09:17"
+    MedicalRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        pid:
+          type: string
+        last_visit:
+          type: string
+        diagnosis:
+          type: string
+        prescription:
+          type: string
+        status:
+          type: integer
+      example:
+        id: 1
+        pid: "ABC123"
+        last_visit: "2023-06-19"
+        diagnosis: "Lorem ipsum dolor sit amet"
+        prescription: "Lorem ipsum dolor sit amet"
+        status: 1
+
 tags:
   - name: Introduction
     description: |
@@ -37,3 +305,12 @@ tags:
       ## List of API Documentations
       - [STM Management](/)
       - [Medical Management](/medical)
+  - name: Investivations
+    description: |
+      This section contains the documentation for the investivations endpoints.
+  - name: Patients
+    description: |
+      This section contains the documentation for the patients endpoints.
+  - name: Records
+    description: |
+      This section contains the documentation for the records endpoints.
