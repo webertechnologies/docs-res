@@ -106,16 +106,16 @@ paths:
       parameters:
         - name: month
           in: query
-          description: The month for which activities should be retrieved (1-12)
-          required: true
+          description: The month for which activities should be retrieved (1-12). If not specified, the current month is used.
+          required: false
           schema:
             type: integer
             minimum: 1
             maximum: 12
         - name: year
           in: query
-          description: The year for which activities should be retrieved
-          required: true
+          description: The year for which activities should be retrieved. If not specified, the current year is used.
+          required: false
           schema:
             type: integer
       responses:
@@ -152,7 +152,103 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Activity"
+                  $ref: "#/components/schemas/ActivityVol"
+        "400":
+          description: Invalid request
+
+  /activities/activities_vol?count=true:
+    get:
+      tags:
+        - Activities
+      summary: Only Count | Retrieve activities for a volunteer
+      description: |
+        This endpoint allows you to retrieve count of activities for a specific volunteer.
+      parameters:
+        - name: uid
+          in: query
+          description: The ID of the volunteer
+          required: true
+          schema:
+            type: integer
+        - name: count
+          in: query
+          description: Count = true will return count of activities for a volunteer. Default is false.
+          required: true
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityVolCount"
+        "400":
+          description: Invalid request
+
+  /activities/activity_volunteers:
+    get:
+      tags:
+        - Activities
+      summary: Retrieve volunteers for an activity
+      description: |
+        This endpoint allows you to retrieve volunteers for a specific activity.
+      parameters:
+        - name: id
+          in: query
+          description: The ID of the activity
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityVolunteers"
+        "400":
+          description: Invalid request
+
+  /activities/manage_activity_vol:
+    post:
+      tags:
+        - Activities
+      summary: Add or remove volunteers for an activity
+      description: |
+        This endpoint allows you to add or remove volunteers for a specific activity.
+      requestBody:
+        description: |
+          The request body should contain a JSON object with the following properties:
+          - `id` - The ID of the activity
+          - `volunteers` - An array of volunteer IDs
+          - `action` - The action to be performed. Can be `add` or `remove`
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                aid:
+                  type: integer
+                volunteers:
+                  type: array
+                  items:
+                    type: integer
+                action:
+                  type: string
+                  enum: [add, remove]
+              required:
+                - aid
+                - volunteers
+                - action
+      responses:
+        "200":
+          description: Successful response
         "400":
           description: Invalid request
 
@@ -223,18 +319,142 @@ components:
           type: integer
         title:
           type: string
-        start_date:
-          type: string
-          format: date
-        start_time:
-          type: string
-          format: time
         description:
-          type: string
-        status:
           type: string
         sponsored_by:
           type: string
+        blueprint:
+          type: string
+        report:
+          type: string
+        added_on:
+          type: string
+        status:
+          type: integer
+        start_date:
+          type: string
+        end_date:
+          type: string
+        start_time:
+          type: string
+        end_time:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      example:
+        id: 2
+        title: "Free Tuition's Survey"
+        description: "Survey for free tuitions at boodhevi nagar, sainikpuri."
+        sponsored_by: "Youth for SEva, Chintala Narasimha raju (certificates)"
+        blueprint: "n/a"
+        report: "n/a"
+        added_on: "2023-06-18"
+        status: 1
+        start_date: null
+        end_date: null
+        start_time: null
+        end_time: null
+        created_at: "2023-06-18 18:10:13"
+        updated_at: "2023-06-18 18:10:13"
+
+    ActivityVol:
+      type: object
+      properties:
+        activity_id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        sponsored_by:
+          type: string
+        blueprint:
+          type: string
+        report:
+          type: string
+        added_on:
+          type: string
+        status:
+          type: integer
+        start_date:
+          type: string
+        end_date:
+          type: string
+        start_time:
+          type: string
+        end_time:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      example:
+        activity_id: 2
+        title: "Free Tuition's Survey"
+        description: "Survey for free tuitions at boodhevi nagar, sainikpuri."
+        sponsored_by: "Youth for SEva, Chintala Narasimha raju (certificates)"
+        blueprint: "n/a"
+        report: "n/a"
+        added_on: "2023-06-18"
+        status: 1
+        start_date: null
+        end_date: null
+        start_time: null
+        end_time: null
+        created_at: "2023-06-18 18:10:13"
+        updated_at: "2023-06-18 18:10:13"
+
+    ActivityVolCount:
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+            data:
+              type: string
+      example:
+        status: "success"
+        data:
+          status: "success"
+          data: "1"
+
+    ActivityVolunteers:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        mail:
+          type: string
+        gender:
+          type: integer
+        mobile:
+          type: string
+        status:
+          type: integer
+        role:
+          type: string
+        role_id:
+          type: integer
+        added_on:
+          type: string
+      example:
+        id: "stmo3115"
+        name: "Gaddamidi Shivani"
+        mail: "g.*******@gmail.com"
+        gender: 2
+        mobile: "0*******35"
+        status: 1
+        role: "volunteer"
+        role_id: 1
+        added_on: "2023-06-18 16:48:21"
 
 tags:
   - name: Logs
@@ -253,32 +473,19 @@ tags:
     description: |
       ![Activities](https://example.com/images/activities.png)
 
-      **<h1>Activities API</h1>**
+      **Activities API**
 
       <p>The Activities API allows you to manage and retrieve information about the activities organized by STM (Service To Mankind) NGO. You can perform various operations such as retrieving all activities, getting details of a specific activity, adding volunteers to activities, and removing volunteers from activities.</p>
 
       ## Endpoints
 
-      - `GET /activities`: Retrieve a list of all activities.
-      - `GET /activities/{id}`: Get details of a specific activity.
-      - `POST /activities/{id}`: Add a volunteer to an activity.
-      - `DELETE /activities/{id}/volunteers/{volunteerId}`: Remove a volunteer from an activity.
+      - `GET /activities/activities`: Retrieve a list of all activities of the current month.
+      - `GET /activities/activities?month={month}&year={year}`: Retrieve a list of all activities of a specific month and year.
+      - `GET /activities/activities_vol?uid={uid}`: Retrieve a list of all activities of a specific volunteer.
+      - `GET /activities/activities_vol?uid={uid}&count=true` : Retrieve a count of all activities of a specific volunteer.
+      - `GET /activities/activity_volunteers?id={activity_id}`: Retrieve a list of all volunteers of a specific activity.
+      - `POST /activities/manage_activity_vol?aid={{activity_id}}&volunteers={{volunteer1,volunteer2,volunteer3}}&action{{add/delete}}`: Add or remove volunteers from an activity.
 
-      ## Authentication
-
-      The Activities API requires authentication. To access the API endpoints, you need to include an API key in the `Authorization` header of your requests.
-
-      ## Pagination
-
-      The API endpoints that return multiple activities support pagination. You can specify the `page` parameter to retrieve a specific page of activities, and the `limit` parameter to control the number of activities per page.
-
-      ## Error Handling
-
-      If any errors occur during the API operations, appropriate HTTP status codes and error messages will be returned. Make sure to handle and interpret these error responses properly in your application.
-
-      For more details about the API endpoints and request/response examples, refer to the API documentation below.
-
-      [API Documentation](https://example.com/documentation)
   - name: common
     description: |
       Common API endpoints.
