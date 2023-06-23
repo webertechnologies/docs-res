@@ -242,7 +242,63 @@ paths:
                       $ref: "#/components/schemas/MedicalRecord"
           "400":
             description: Invalid request
-
+  /records/add_records:
+    post:
+      tags:
+        - Records
+      summary: Add Medical Record
+      requestBody:
+        description: |
+          The request body should contain a JSON object with the following properties:
+          - `pid` - The ID of the patient
+          - `diagonsis` - The diagnosis of the patient
+          - `prescription` - The prescription of the patient
+          - `doctor` - The doctor who prescribed the medicine
+          - `prescriptionfile` - The prescription file
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                pid:
+                  type: string
+                diagnosis:
+                  type: string
+                prescription:
+                  type: string
+                doctor:
+                  type: string
+                prescriptionfile:
+                  type: string
+                  format: binary
+              required:
+                - pid
+                - diagnosis
+                - prescription
+                - doctor
+                - prescriptionfile
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
 components:
   schemas:
     Patient:
