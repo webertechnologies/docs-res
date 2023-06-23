@@ -457,6 +457,15 @@ components:
         added_on: "2023-06-18 16:48:21"
 
 tags:
+  - name: Introduction
+    description: |
+
+      STM (Service To Mankind) is a non-governmental organization (NGO) that is committed to the development of the society. It is a non-profit organization that aims to provide basic necessities to the underprivileged and help them lead a better life. The NGO is run by a group of volunteers who are passionate about making a difference in the society.
+
+      ## List of API Documentations
+      - [STM Management](/)
+      - [Medical Management](/medical)
+
   - name: Logs
     description: |
       **Logs API**
@@ -494,7 +503,14 @@ tags:
       The Documents API allows you to retrieve documents for a specific month and year.
   - name: Medical
     description: |
-      The Medical API allows you to retrieve medical records for a specific month and year.
+      <div style="background-color: #f7f7f7; padding: 10px;">
+        <p style="font-size: 18px; font-weight: bold;">The Medical API allows you to retrieve medical records for a specific month and year.</p>
+        <p style="font-size: 16px;">For detailed documentation on all APIs related to our Medical Management System, please refer to our <a href="/medical" style="color: #3366cc; text-decoration: none;">Medical API Documentation</a>.</p>
+        <a href="/medical" style="text-decoration: none;">
+          <button style="background-color: #3366cc; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Go to Medical API Documentation</button>
+        </a>
+      </div>
+
   - name: Global
     description: |
       The Global API allows you to retrieve global data.
