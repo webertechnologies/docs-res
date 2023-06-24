@@ -25,6 +25,9 @@ info:
       <p style="font-size: 14px; font-weight: bold;">Note:</p>
       <p style="font-size: 14px;">This API is intended for authorized use only. Make sure to obtain the necessary access credentials and follow the guidelines provided.</p>
     </div>
+  license:
+    name: Apache 2.0
+    url: https://github.com/ServiceToMankind/docs.stmorg.in/blob/main/LICENSE
   version: 1.0.0
 servers:
   - url: https://apis.stmorg.in

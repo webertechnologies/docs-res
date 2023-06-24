@@ -25,6 +25,9 @@ info:
       <p style="font-size: 14px; font-weight: bold;">Note:</p>
       <p style="font-size: 14px;">This API is intended for authorized use only. Make sure to obtain the necessary access credentials and follow the guidelines provided.</p>
     </div>
+  license:
+    name: Apache 2.0
+    url: https://github.com/ServiceToMankind/docs.stmorg.in/blob/main/LICENSE
   version: 1.0.0
 servers:
   - url: https://apis.stmorg.in/medical
@@ -119,10 +122,10 @@ paths:
                 type: object
                 properties:
                   status:
-                    const: success
+                    example: success
                     type: string
                   data:
-                    const: id
+                    example: id
                     type: integer
         "400":
           description: Invalid request
@@ -180,11 +183,11 @@ paths:
                 type: object
                 properties:
                   status:
-                    const: success
+                    example: success
                     type: string
                     description: The status of the response
                   data:
-                    const: pid
+                    example: pid
                     type: integer
                     description: The ID of the patient
         "400":
@@ -240,8 +243,8 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/MedicalRecord"
-          "400":
-            description: Invalid request
+        "400":
+          description: Invalid request
   /records/add_records:
     post:
       tags:
