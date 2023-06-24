@@ -251,6 +251,140 @@ paths:
           description: Successful response
         "400":
           description: Invalid request
+  /constitution/articles:
+    post:
+      tags:
+        - Constitution
+      summary: Add an article
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+                author:
+                  type: string
+              required:
+                - title
+                - content
+                - author
+      responses:
+        "200":
+          description: Article added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      articleId:
+                        type: integer
+    delete:
+      tags:
+        - Constitution
+      summary: Remove an article
+      parameters:
+        - in: query
+          name: article
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: Article removed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+  /constitution/articles/{articleId}:
+    put:
+      tags:
+        - Constitution
+      summary: Update an article
+      parameters:
+        - in: path
+          name: articleId
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+                author:
+                  type: string
+              required:
+                - title
+                - content
+                - author
+      responses:
+        "200":
+          description: Article updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+        "400":
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+        "404":
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
 
 components:
   schemas:
@@ -462,6 +596,74 @@ tags:
 
       STM (Service To Mankind) is a non-governmental organization (NGO) that is committed to the development of the society. It is a non-profit organization that aims to provide basic necessities to the underprivileged and help them lead a better life. The NGO is run by a group of volunteers who are passionate about making a difference in the society.
 
+      ## Recommended Functions
+      - Use the following recommended function to POST, DELETE, PUT the data to send the data to the API.
+
+      *POST*
+      ```
+      function get_api_data_post($url,$data){
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      $output = curl_exec($ch);
+      curl_close($ch);
+      return $output;
+      }
+      ```
+      *DELETE*
+      ```
+      function get_api_data_delete($url) {
+      $ch = curl_init();
+
+      // Set the CURL options
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+      $output = curl_exec($ch);
+
+      // Check for CURL errors
+      if (curl_errno($ch)) {
+        echo 'CURL Error: ' . curl_error($ch);
+      }
+
+      curl_close($ch);
+
+      return $output;
+      }
+      ```
+      *PUT*
+      ```
+      function get_api_data_put($url, $putData) {
+      $ch = curl_init();
+
+      // Prepare the PUT data as JSON
+      $jsonData = json_encode($putData);
+
+      // Set the CURL options
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($jsonData)
+      ));
+
+      $output = curl_exec($ch);
+
+      // Check for CURL errors
+      if (curl_errno($ch)) {
+        echo 'CURL Error: ' . curl_error($ch);
+      }
+
+      curl_close($ch);
+
+      return $output;
+      }
+      ```
+
       ## List of API Documentations
       - [STM Management](/)
       - [Medical Management](/medical)
@@ -494,6 +696,16 @@ tags:
       - `GET /activities/activities_vol?uid={uid}&count=true` : Retrieve a count of all activities of a specific volunteer.
       - `GET /activities/activity_volunteers?id={activity_id}`: Retrieve a list of all volunteers of a specific activity.
       - `POST /activities/manage_activity_vol?aid={{activity_id}}&volunteers={{volunteer1,volunteer2,volunteer3}}&action{{add/delete}}`: Add or remove volunteers from an activity.
+  - name: Constitution
+    description: |
+      **Constitution API**
+
+      The Constitution API allows you to manage and retrieve information about the constitution of the STM (Service To Mankind) NGO. You can perform various operations such as retrieving the constitution of the NGO.
+
+      ## Endpoints
+      - `POST /constitution/article`: Add a new article to the constitution.
+      - `DELETE /constitution/article`: Delete an article from the constitution.
+      - `PUT /constitution/article`: Update an article in the constitution.
 
   - name: common
     description: |
