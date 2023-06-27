@@ -1,6 +1,10 @@
 openapi: 3.0.0
 info:
   title: STM API Documentation
+  termsOfService: https://stmorg.in/terms-of-service
+  contact:
+    email: reach@stmorg.in
+    url: https://stmorg.in
   description: |
     <div style="background-color: #f1f1f1; padding: 20px; border-radius: 5px;">
       <h1 style="color: #333;">Welcome to the STM API Documentation!</h1>
