@@ -306,6 +306,97 @@ paths:
                 properties:
                   message:
                     type: string
+  /diagnosis/diagnosis:
+    get:
+      tags:
+        - Diagnosis
+      summary: Get Diagnosis Types
+      parameters:
+        - in: query
+          name: did
+          schema:
+            type: string
+          description: The ID of the diagnosis type
+
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Type 1
+                        status:
+                          type: integer
+                          example: 1
+                required:
+                  - status
+                  - data
+        "500":
+          description: Internal Server Error
+        "400":
+          description: Bad Request
+  /doctors/doctors:
+    get:
+      tags:
+        - Doctors
+      summary: Get Doctors
+      parameters:
+        - in: query
+          name: did
+          schema:
+            type: string
+          description: Optional. Filter doctors by ID, contact number, or name.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: John Doe
+                        contact_number:
+                          type: string
+                          example: +1234567890
+                        status:
+                          type: integer
+                          example: 1
+                required:
+                  - status
+                  - data
+        "500":
+          description: Internal Server Error
+        "400":
+          description: Bad Request
+
 components:
   schemas:
     Patient:
@@ -445,3 +536,9 @@ tags:
   - name: Records
     description: |
       This section contains the documentation for the records endpoints.
+  - name: Diagnosis
+    description: |
+      This section contains the documentation for the diagnosis endpoints.
+  - name: Doctors
+    description: |
+      This section contains the documentation for the doctors endpoints.
