@@ -1,335 +1,50 @@
 openapi: 3.0.0
 info:
-  title: STM API Documentation
-  termsOfService: https://stmorg.in/terms-of-service
-  contact:
-    email: reach@stmorg.in
-    url: https://stmorg.in
-  description: |
-    <div style="background-color: #f1f1f1; padding: 20px; border-radius: 5px;">
-      <h1 style="color: #333;">Welcome to the STM API Documentation!</h1>
-      <p style="font-size: 16px;">Explore the power of our API to make a difference.</p>
-      <p style="font-weight: bold;">Organization: Service To Mankind</p>
-      <hr style="border: none; border-top: 1px solid #ccc; margin: 20px 0;">
-      <p style="font-size: 14px;">
-        This documentation provides detailed information about the API endpoints and functionality offered by the STM organization.
-      </p>
-      <p style="font-size: 14px;">
-        We aim to empower developers and partners to leverage our services for the betterment of society.
-      </p>
-    </div>
-
-    <h2 style="color: #333;">Getting Started</h2>
-    <p style="font-size: 16px;">To get started, please refer to the sidebar navigation to explore the available endpoints and their respective request and response structures.</p>
-
-    <h2 style="color: #333;">Authentication</h2>
-    <p style="font-size: 16px;">Some API endpoints require authentication. Please refer to the authentication section in the sidebar for more information on how to authenticate your requests.</p>
-
-    <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
-      <p style="font-size: 14px; font-weight: bold;">Note:</p>
-      <p style="font-size: 14px;">This API is intended for authorized use only. Make sure to obtain the necessary access credentials and follow the guidelines provided.</p>
-    </div>
-  license:
-    name: Apache 2.0
-    url: https://github.com/ServiceToMankind/docs.stmorg.in/blob/main/LICENSE
+  title: Battery Management API
   version: 1.0.0
-servers:
-  - url: https://apis.stmorg.in
+  description: API for managing batteries and components
+
 paths:
-  /logs/donations:
+  /api/battery_components:
     get:
-      tags:
-        - Logs
-      summary: Retrieve donation logs
-      description: |
-        This endpoint allows you to retrieve donation logs for a specific month and year.
-      parameters:
-        - name: month
-          in: query
-          description: The month for which donation logs should be retrieved (1-12). If not specified, the current month is used.
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 12
-        - name: year
-          in: query
-          description: The year for which donation logs should be retrieved. If not specified, the current year is used.
-          required: false
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/DonationLog"
-        "400":
-          description: Invalid request
-  /logs/spends:
-    get:
-      tags:
-        - Logs
-      summary: Retrieve spend logs
-      description: |
-        This endpoint allows you to retrieve spend logs for a specific month and year.
-      parameters:
-        - name: month
-          in: query
-          description: The month for which spend logs should be retrieved (1-12). If not specified, the current month is used.
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 12
-        - name: year
-          in: query
-          description: The year for which spend logs should be retrieved. If not specified, the current year is used.
-          required: false
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/SpendsLog"
-        "400":
-          description: Invalid request
-
-  /activities/activities:
-    get:
-      tags:
-        - Activities
-      summary: Retrieve activities
-      description: |
-        This endpoint allows you to retrieve activities for a specific month and year.
-      parameters:
-        - name: month
-          in: query
-          description: The month for which activities should be retrieved (1-12). If not specified, the current month is used.
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 12
-        - name: year
-          in: query
-          description: The year for which activities should be retrieved. If not specified, the current year is used.
-          required: false
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Activity"
-        "400":
-          description: Invalid request
-
-  /activities/activities_vol:
-    get:
-      tags:
-        - Activities
-      summary: Retrieve activities for a volunteer
-      description: |
-        This endpoint allows you to retrieve activities for a specific volunteer.
-      parameters:
-        - name: uid
-          in: query
-          description: The ID of the volunteer
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ActivityVol"
-        "400":
-          description: Invalid request
-
-  /activities/activities_vol?count=true:
-    get:
-      tags:
-        - Activities
-      summary: Only Count | Retrieve activities for a volunteer
-      description: |
-        This endpoint allows you to retrieve count of activities for a specific volunteer.
-      parameters:
-        - name: uid
-          in: query
-          description: The ID of the volunteer
-          required: true
-          schema:
-            type: integer
-        - name: count
-          in: query
-          description: Count = true will return count of activities for a volunteer. Default is false.
-          required: true
-          schema:
-            type: boolean
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ActivityVolCount"
-        "400":
-          description: Invalid request
-
-  /activities/activity_volunteers:
-    get:
-      tags:
-        - Activities
-      summary: Retrieve volunteers for an activity
-      description: |
-        This endpoint allows you to retrieve volunteers for a specific activity.
-      parameters:
-        - name: id
-          in: query
-          description: The ID of the activity
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ActivityVolunteers"
-        "400":
-          description: Invalid request
-
-  /activities/manage_activity_vol:
-    post:
-      tags:
-        - Activities
-      summary: Add or remove volunteers for an activity
-      description: |
-        This endpoint allows you to add or remove volunteers for a specific activity.
-      requestBody:
-        description: |
-          The request body should contain a JSON object with the following properties:
-          - `id` - The ID of the activity
-          - `volunteers` - An array of volunteer IDs
-          - `action` - The action to be performed. Can be `add` or `remove`
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                aid:
-                  type: integer
-                volunteers:
-                  type: array
-                  items:
-                    type: integer
-                action:
-                  type: string
-                  enum: [add, remove]
-              required:
-                - aid
-                - volunteers
-                - action
-      responses:
-        "200":
-          description: Successful response
-        "400":
-          description: Invalid request
-  /constitution/articles:
-    post:
-      tags:
-        - Constitution
-      summary: Add an article
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                content:
-                  type: string
-                author:
-                  type: string
-              required:
-                - title
-                - content
-                - author
-      responses:
-        "200":
-          description: Article added successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  message:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      articleId:
-                        type: integer
-    delete:
-      tags:
-        - Constitution
-      summary: Remove an article
+      summary: List battery components
       parameters:
         - in: query
-          name: article
+          name: battery_id
+          required: true
+          description: ID of the battery to list components for
           schema:
             type: integer
-          required: true
       responses:
-        "200":
-          description: Article removed successfully
+        '200':
+          description: Successful response
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  message:
-                    type: string
-  /constitution/articles/{articleId}:
-    put:
-      tags:
-        - Constitution
-      summary: Update an article
-      parameters:
-        - in: path
-          name: articleId
-          schema:
-            type: integer
-          required: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/BatteryComponent'
+        '404':
+          description: No battery components found for the provided battery ID
+
+  /api/add_or_update_battery_component:
+    post:
+      summary: Add or update battery component
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatteryComponentInput'
+      responses:
+        '200':
+          description: Successfully added or updated battery component
+        '400':
+          description: Invalid request body or parameters provided
+
+  /api/delete_battery_component:
+    post:
+      summary: Delete battery component
       requestBody:
         required: true
         content:
@@ -337,399 +52,61 @@ paths:
             schema:
               type: object
               properties:
-                title:
-                  type: string
-                content:
-                  type: string
-                author:
-                  type: string
-              required:
-                - title
-                - content
-                - author
+                id:
+                  type: integer
+                  description: ID of the battery component to delete
+                  example: 123
       responses:
-        "200":
-          description: Article updated successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  message:
-                    type: string
-        "400":
-          description: Invalid request body
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  message:
-                    type: string
-        "404":
-          description: Article not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  message:
-                    type: string
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  message:
-                    type: string
+        '200':
+          description: Battery component deleted successfully
+        '400':
+          description: Invalid request body or parameters provided
+        '404':
+          description: No battery component found for the provided ID
 
 components:
   schemas:
-    DonationLog:
+    BatteryComponent:
       type: object
       properties:
         id:
           type: integer
-        name:
-          type: string
-        mail:
-          type: string
-        mobile:
+        battery_id:
           type: integer
-        amount:
+        component_id:
           type: integer
-        type:
+        qty:
           type: integer
-        message:
-          type: string
-        txid:
-          type: string
-        payment_status:
+        target_qty:
           type: integer
-        custid:
+        status:
           type: string
-        added_on:
-          type: string
-      example:
-        id: 509
-        name: "Pranay Kiran"
-        mail: "pranay********@ybl"
-        mobile: 0
-        amount: 2000
-        type: 0
-        message: "STM DONAR"
-        txid: "352697956568"
-        payment_status: 1
-        custid: "0"
-        added_on: "2023-06-19 06:09:17"
+      required:
+        - id
+        - battery_id
+        - component_id
+        - qty
+        - target_qty
+        - status
 
-    SpendsLog:
+    BatteryComponentInput:
       type: object
       properties:
         id:
           type: integer
-        title:
-          type: string
-        des:
-          type: string
-        amount:
+        battery_id:
           type: integer
-        date:
-          type: string
-      example:
-        id: 3
-        title: "Animal care"
-        des: "Street Friend Drive In Miyapur"
-        amount: 1600
-        date: "2022-04-24"
-
-    Activity:
-      type: object
-      properties:
-        id:
+        component_id:
           type: integer
-        title:
-          type: string
-        description:
-          type: string
-        sponsored_by:
-          type: string
-        blueprint:
-          type: string
-        report:
-          type: string
-        added_on:
-          type: string
-        status:
+        qty:
           type: integer
-        start_date:
-          type: string
-        end_date:
-          type: string
-        start_time:
-          type: string
-        end_time:
-          type: string
-        created_at:
-          type: string
-        updated_at:
-          type: string
-      example:
-        id: 2
-        title: "Free Tuition's Survey"
-        description: "Survey for free tuitions at boodhevi nagar, sainikpuri."
-        sponsored_by: "Youth for SEva, Chintala Narasimha raju (certificates)"
-        blueprint: "n/a"
-        report: "n/a"
-        added_on: "2023-06-18"
-        status: 1
-        start_date: null
-        end_date: null
-        start_time: null
-        end_time: null
-        created_at: "2023-06-18 18:10:13"
-        updated_at: "2023-06-18 18:10:13"
-
-    ActivityVol:
-      type: object
-      properties:
-        activity_id:
+        target_qty:
           type: integer
-        title:
-          type: string
-        description:
-          type: string
-        sponsored_by:
-          type: string
-        blueprint:
-          type: string
-        report:
-          type: string
-        added_on:
-          type: string
-        status:
-          type: integer
-        start_date:
-          type: string
-        end_date:
-          type: string
-        start_time:
-          type: string
-        end_time:
-          type: string
-        created_at:
-          type: string
-        updated_at:
-          type: string
-      example:
-        activity_id: 2
-        title: "Free Tuition's Survey"
-        description: "Survey for free tuitions at boodhevi nagar, sainikpuri."
-        sponsored_by: "Youth for SEva, Chintala Narasimha raju (certificates)"
-        blueprint: "n/a"
-        report: "n/a"
-        added_on: "2023-06-18"
-        status: 1
-        start_date: null
-        end_date: null
-        start_time: null
-        end_time: null
-        created_at: "2023-06-18 18:10:13"
-        updated_at: "2023-06-18 18:10:13"
-
-    ActivityVolCount:
-      type: object
-      properties:
         status:
           type: string
-        data:
-          type: object
-          properties:
-            status:
-              type: string
-            data:
-              type: string
-      example:
-        status: "success"
-        data:
-          status: "success"
-          data: "1"
-
-    ActivityVolunteers:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        mail:
-          type: string
-        gender:
-          type: integer
-        mobile:
-          type: string
-        status:
-          type: integer
-        role:
-          type: string
-        role_id:
-          type: integer
-        added_on:
-          type: string
-      example:
-        id: "stmo3115"
-        name: "Gaddamidi Shivani"
-        mail: "g.*******@gmail.com"
-        gender: 2
-        mobile: "0*******35"
-        status: 1
-        role: "volunteer"
-        role_id: 1
-        added_on: "2023-06-18 16:48:21"
-
-tags:
-  - name: Introduction
-    description: |
-
-      STM (Service To Mankind) is a non-governmental organization (NGO) that is committed to the development of the society. It is a non-profit organization that aims to provide basic necessities to the underprivileged and help them lead a better life. The NGO is run by a group of volunteers who are passionate about making a difference in the society.
-
-      ## Recommended Functions
-      - Use the following recommended function to POST, DELETE, PUT the data to send the data to the API.
-
-      *POST*
-      ```
-      function get_api_data_post($url,$data){
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL, $url);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      $output = curl_exec($ch);
-      curl_close($ch);
-      return $output;
-      }
-      ```
-      *DELETE*
-      ```
-      function get_api_data_delete($url) {
-      $ch = curl_init();
-
-      // Set the CURL options
-      curl_setopt($ch, CURLOPT_URL, $url);
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-      $output = curl_exec($ch);
-
-      // Check for CURL errors
-      if (curl_errno($ch)) {
-        echo 'CURL Error: ' . curl_error($ch);
-      }
-
-      curl_close($ch);
-
-      return $output;
-      }
-      ```
-      *PUT*
-      ```
-      function get_api_data_put($url, $putData) {
-      $ch = curl_init();
-
-      // Prepare the PUT data as JSON
-      $jsonData = json_encode($putData);
-
-      // Set the CURL options
-      curl_setopt($ch, CURLOPT_URL, $url);
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($jsonData)
-      ));
-
-      $output = curl_exec($ch);
-
-      // Check for CURL errors
-      if (curl_errno($ch)) {
-        echo 'CURL Error: ' . curl_error($ch);
-      }
-
-      curl_close($ch);
-
-      return $output;
-      }
-      ```
-
-      ## List of API Documentations
-      - [STM Management](/)
-      - [Medical Management](/medical)
-
-  - name: Logs
-    description: |
-      **Logs API**
-
-      The Logs API allows you to manage and retrieve information about the donations made and spends by the STM (Service To Mankind) NGO. You can perform various operations such as retrieving donation logs for a specific month and year.
-
-      ## Endpoints
-      - `GET /logs/donations`: Retrieve donation logs for a current month and year.
-      - `GET /logs/donations?month={month}&year={year}`: Retrieve donation logs for a specific month and year.
-      - `GET /logs/spends`: Retrieve spend logs for a current month and year.
-      - `GET /logs/spends?month={month}&year={year}`: Retrieve spend logs for a specific month and year.
-
-  - name: Activities
-    description: |
-      ![Activities](https://example.com/images/activities.png)
-
-      **Activities API**
-
-      <p>The Activities API allows you to manage and retrieve information about the activities organized by STM (Service To Mankind) NGO. You can perform various operations such as retrieving all activities, getting details of a specific activity, adding volunteers to activities, and removing volunteers from activities.</p>
-
-      ## Endpoints
-
-      - `GET /activities/activities`: Retrieve a list of all activities of the current month.
-      - `GET /activities/activities?month={month}&year={year}`: Retrieve a list of all activities of a specific month and year.
-      - `GET /activities/activities_vol?uid={uid}`: Retrieve a list of all activities of a specific volunteer.
-      - `GET /activities/activities_vol?uid={uid}&count=true` : Retrieve a count of all activities of a specific volunteer.
-      - `GET /activities/activity_volunteers?id={activity_id}`: Retrieve a list of all volunteers of a specific activity.
-      - `POST /activities/manage_activity_vol?aid={{activity_id}}&volunteers={{volunteer1,volunteer2,volunteer3}}&action{{add/delete}}`: Add or remove volunteers from an activity.
-  - name: Constitution
-    description: |
-      **Constitution API**
-
-      The Constitution API allows you to manage and retrieve information about the constitution of the STM (Service To Mankind) NGO. You can perform various operations such as retrieving the constitution of the NGO.
-
-      ## Endpoints
-      - `POST /constitution/article`: Add a new article to the constitution.
-      - `DELETE /constitution/article`: Delete an article from the constitution.
-      - `PUT /constitution/article`: Update an article in the constitution.
-
-  - name: common
-    description: |
-      Common API endpoints.
-  - name: Documents
-    description: |
-      The Documents API allows you to retrieve documents for a specific month and year.
-  - name: Medical
-    description: |
-      <div style="background-color: #f7f7f7; padding: 10px;">
-        <p style="font-size: 18px; font-weight: bold;">The Medical API allows you to retrieve medical records for a specific month and year.</p>
-        <p style="font-size: 16px;">For detailed documentation on all APIs related to our Medical Management System, please refer to our <a href="/medical" style="color: #3366cc; text-decoration: none;">Medical API Documentation</a>.</p>
-        <a href="/medical" style="text-decoration: none;">
-          <button style="background-color: #3366cc; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Go to Medical API Documentation</button>
-        </a>
-      </div>
-
-  - name: Global
-    description: |
-      The Global API allows you to retrieve global data.
+      required:
+        - battery_id
+        - component_id
+        - qty
+        - target_qty
+        - status
